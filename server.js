@@ -7,6 +7,9 @@ console.log('Scope: ' + process.env.NODE_ENV);
 config = xnconfig.parse(process.env.NODE_ENV, data);
 console.log('env: ' + config.env);
 
+var DB = require('./services/database');
+db = new DB(config.db_connection);
+
 var express = require('express');
 var app = express();
 
