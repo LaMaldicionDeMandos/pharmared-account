@@ -1,5 +1,5 @@
 {
-  "name": "pharmared/account",
+  "name": "pharmared-account",
   "version": "0.0.1",
   "description": "Accounts microservice for pharmared",
   "main": "server.js",
