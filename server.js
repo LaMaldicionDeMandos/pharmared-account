@@ -1,11 +1,4 @@
-
-var xnconfig = require('nodejsconfig');
-var fs = require('fs');
-var data = fs.readFileSync(__dirname+'/config/config.properties', 'UTF8');
-console.log('Scope: ' + process.env.NODE_ENV);
-
-config = xnconfig.parse(process.env.NODE_ENV, data);
-console.log('env: ' + config.env);
+config = require('./services/config');
 
 var DB = require('./services/database');
 db = new DB(config.db_connection);

@@ -1,13 +1,14 @@
 /**
  * Created by boot on 7/31/16.
  */
+var config = require('./services/config');
 var async = require('async');
 var sha = require('sha256');
 var DB = require('./services/database');
 var Scope = require('./model/scope');
 var pass = process.argv[2];
 
-var db = new DB('mongodb://localhost/pharamared_accounts');
+var db = new DB(config.db_connection);
 var ObjectId = db.ObjectId;
 var Entity = db.Entity;
 var User = db.User;
