@@ -7,7 +7,10 @@
   "scripts": {
     "start_production": "NODE_ENV=production node server.js",
     "start_staging": "NODE_ENV=staging node server.js",
-    "start_development": "NODE_ENV=development node server.js"
+    "start_development": "NODE_ENV=development node server.js",
+    "create_anmat_development": "NODE_ENV=development node anmat_creation.js",
+    "create_anmat_staging": "NODE_ENV=staging node anmat_creation.js",
+    "create_anmat_production": "NODE_ENV=production node anmat_creation.js"
   },
   "engines": {
     "node": "0.12.7"
