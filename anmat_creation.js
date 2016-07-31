@@ -35,7 +35,7 @@ var functions = [function(callback) {
             console.log(err);
             callback(err)
         } else {
-            console.log("Anmat saved saved");
+            console.log("Anmat entity saved");
             callback();
         }
     });
