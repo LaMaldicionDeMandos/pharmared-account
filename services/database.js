@@ -9,8 +9,11 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var EntitySchema = new Schema({_id:String, name:String, scope:String, isParent:Boolean, unique: Boolean, image:String});
+var UserSchema = new Schema({_id:String, username:String, password: String, type:String, entity:String, role:[String],
+    profile:{}});
 
 var Entity = mongoose.model('Entity', EntitySchema);
+var User = mongoose.model('User', UserSchema);
 
 var db = function(credentials) {
     mongoose.connect(credentials);
@@ -20,6 +23,7 @@ var db = function(credentials) {
     this.Schema = Schema;
     this.ObjectId = mongoose.Types.ObjectId;
     this.Entity = Entity;
+    this.User = User;
 };
 
 process.on('exit', function() {
