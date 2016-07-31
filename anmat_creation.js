@@ -2,6 +2,7 @@
  * Created by boot on 7/31/16.
  */
 var async = require('async');
+var sha = require('sha256');
 var DB = require('./services/database');
 var Scope = require('./model/scope');
 var pass = process.argv[2];
@@ -22,7 +23,7 @@ anmat.image = 'http://www.anmat.gov.ar/imagenes/logo_anmat.png';
 var anmatUser = new User();
 anmatUser._id = new ObjectId();
 anmatUser.username = 'anmat';
-anmatUser.password = pass;
+anmatUser.password = sha(pass);
 anmatUser.type = 'root';
 anmatUser.entity = anmat._id;
 anmatUser.role = ['root'];
