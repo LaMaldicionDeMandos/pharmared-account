@@ -8,18 +8,9 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
-/*
- El hay dos roles admin, el super admin y el admin normal
- La diferencia es que el super puede administrar otros otros admin de menor categoria y comprar paquetes de usuarios
- */
-/*
-var UserSchema = new Schema({_id:String, username:String, password:String, email:String, role: String, state:String,
-    buildingId:String, facebookId:String, messages: [{profile:{photo:String, name: String}, message:String}],
-    profile: {photo:String, fullName:String, gender:String, summary:String,
-        contact:{phone:String, email:String, facebook:String, twitter:String, skype:String}}});
-*/
+var EntitySchema = new Schema({_id:String, name:String, scope:String, isParent:Boolean, unique: Boolean});
 
-//var User = mongoose.model('User', UserSchema);
+var Entity = mongoose.model('Entity', EntitySchema);
 
 var db = function(credentials) {
     mongoose.connect(credentials);
@@ -28,7 +19,7 @@ var db = function(credentials) {
     this.mongoose = mongoose;
     this.Schema = Schema;
     this.ObjectId = mongoose.Types.ObjectId;
-//    this.User = User;
+    this.Entity = Entity;
 };
 
 process.on('exit', function() {
