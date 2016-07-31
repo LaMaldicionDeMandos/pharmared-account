@@ -6,6 +6,7 @@ var async = require('async');
 var sha = require('sha256');
 var DB = require('./services/database');
 var Scope = require('./model/scope');
+var EntityType = require('./model/entity_type');
 var pass = process.argv[2];
 
 var db = new DB(config.db_connection);
@@ -20,6 +21,7 @@ anmat.scope = Scope.GLOBAL.toString();
 anmat.isParent = false;
 anmat.unique = true;
 anmat.image = 'http://www.anmat.gov.ar/imagenes/logo_anmat.png';
+anmat.type = EntityType.GOVERNMENTAL;
 
 var anmatUser = new User();
 anmatUser._id = new ObjectId();

@@ -8,7 +8,8 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
-var EntitySchema = new Schema({_id:String, name:String, scope:String, isParent:Boolean, unique: Boolean, image:String});
+var EntitySchema = new Schema({_id:String, name:String, scope:String, isParent:Boolean, unique: Boolean, image:String,
+    email:String, type:{}});
 var UserSchema = new Schema({_id:String, username:String, password: String, type:String, entity:String, role:[String],
     profile:{}});
 
