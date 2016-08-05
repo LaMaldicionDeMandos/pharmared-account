@@ -12,6 +12,10 @@ function Address(dto) {
         validateEmpty(this.number) &&
         validateEmpty(this.city);
     }
+
+    this.persistable = function(db) {
+        return {street: this.street, number: this.number, city: this.city};
+    }
 }
 
 module.exports = Address;
