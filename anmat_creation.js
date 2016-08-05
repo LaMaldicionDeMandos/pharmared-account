@@ -25,7 +25,7 @@ anmat.type = EntityType.GOVERNMENTAL;
 
 var anmatUser = new User();
 anmatUser._id = new ObjectId();
-anmatUser.username = 'anmat';
+anmatUser.email = 'responde@anmat.gov.ar';
 anmatUser.password = sha(pass);
 anmatUser.type = 'root';
 anmatUser.entity = anmat._id;
