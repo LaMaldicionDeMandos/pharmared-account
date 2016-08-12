@@ -3,6 +3,18 @@
  */
 var q = require('q');
 var validator = require('./model_validations');
+
+function State() {
+
+}
+
+State.WAITING = new State();
+State.WAITING.toString = function() { return 'WAITING'};
+State.ACTIVE = new State();
+State.ACTIVE.toString = function() { return 'ACTIVE'};
+
+State.parse = function(name) { return State[name];}
+
 function User(dto) {
     this.id = dto ? dto._id : undefined;
     this.email = dto ? dto.email : undefined;
@@ -11,6 +23,7 @@ function User(dto) {
     this.entity = dto ? dto.entity : undefined;
     this.role = dto ? dto.role : undefined;
     this.profile = dto ? dto.profile : undefined;
+    this.state = dto ? State.parse(dto.state) : undefined;
 
     this.validate = function() {
         return validator.validateEmpty(this.email) && validator.validateEmail(this.email) &&
@@ -44,7 +57,9 @@ function User(dto) {
         });
         return def.promise;
 
-    }
+    };
 }
+
+User.State = State;
 
 module.exports = User;

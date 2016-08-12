@@ -11,7 +11,7 @@ var Schema = mongoose.Schema;
 var EntitySchema = new Schema({_id:String, name:String, scope:String, isParent:Boolean, unique: Boolean, image:String,
     type:String}, {strict: false});
 var UserSchema = new Schema({_id:String, password: String, email:String, type:String, entity:String,
-    role:[String], profile:{}});
+    role:[String], state: String, profile:{}});
 
 var Entity = mongoose.model('Entity', EntitySchema);
 var User = mongoose.model('User', UserSchema);

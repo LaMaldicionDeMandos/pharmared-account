@@ -4,7 +4,7 @@
 var validator = require('../model/model_validations');
 var Address = require('../model/address');
 var Pharmacy = require('../model/pharmacy_entity');
-var User = require('../model/user_entity');
+var User = require('../model/user');
 var assert = require('assert');
 describe('Model', function() {
     describe('Validations', function () {
