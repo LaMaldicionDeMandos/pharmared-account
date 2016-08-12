@@ -2,6 +2,8 @@
  * Created by boot on 7/31/16.
  */
 var q = require('q');
+var sha = require('sha256');
+var passwordGenerator = require('generate-password');
 var Address = require('../model/address');
 var Pharmacy = require('../model/pharmacy_entity');
 var User = require('../model/user');
@@ -17,6 +19,8 @@ function RegisterService(db) {
 
         var user = new User(dto);
         user.state = User.State.WAITING;
+        var password = passwordGenerator.generate({length: 8});
+        user.password = sha(password);
         if (!pharmacy.validate()) {
             defer.reject('Pharmacy is invalid');
         }
@@ -31,8 +35,7 @@ function RegisterService(db) {
             defer.reject('User is invalid');
         });
         q.all([pharmacyPromise, userPromise]).done(function(values) {
-
-            defer.resolve({pharmacy: values[0], user: values[1]});
+            defer.resolve({pharmacy: values[0], user: values[1], password: password});
         });
         return defer.promise;
     };
