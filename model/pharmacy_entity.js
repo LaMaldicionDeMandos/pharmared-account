@@ -22,7 +22,14 @@ function Pharmacy(dto) {
     this.type = TYPE;
 
     this.persistable = function(db) {
-        var persistable = new db.Entity();
+        var persistable = new db.Entity({
+            phantasy_name: this.phantasy_name,
+            cuit: this.cuit,
+            pharmacist: this.pharmacist,
+            enrollment: this.enrollment,
+            address: this.address.persistable(db),
+            phone: this.phone
+        });
         persistable._id = this.id != undefined ? this.id : new db.ObjectId();
         persistable.name = this.name;
         persistable.scope = this.scope;
@@ -30,12 +37,6 @@ function Pharmacy(dto) {
         persistable.unique = this.unique;
         persistable.image = this.image;
         persistable.type = this.type;
-        persistable.phantasy_name = this.phantasy_name;
-        persistable.cuit = this.cuit;
-        persistable.pharmacist = this.pharmacist;
-        persistable.enrollment = this.enrollment;
-        persistable.address = this.address.persistable(db);
-        persistable.phone = this.phone;
         return persistable;
     };
 

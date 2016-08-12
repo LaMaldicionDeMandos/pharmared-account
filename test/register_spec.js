@@ -13,7 +13,8 @@ var db = {
             } else {
                 callback(null, {_id: 'pharmacy_id'});
             }
-        }
+        };
+        this.set = function(){};
     },
     User: function() {
         this.save = function(callback) {
@@ -32,10 +33,8 @@ var db = {
 describe('Register', function() {
     describe('Create a pharmacy', function() {
         describe('Create a valid pharmacy', function() {
-            var address = {};
             var dto = {street:'lavalleja',number:'1745', city:'Quilmes Oeste', name: 'name', phantasy_name: 'f1',
-                cuit: 'cuit', enrollment: 'address', address: address, pharmacist:'juan',
-                email: 'pasutmarcelo@gmail.com', password: 'aaaaaaa1', type: 'root'};
+                cuit: 'cuit', enrollment: '1234', pharmacist:'juan', email: 'pasutmarcelo@gmail.com'};
             var register;
             beforeEach(function() {
                 register = new Register(db);
