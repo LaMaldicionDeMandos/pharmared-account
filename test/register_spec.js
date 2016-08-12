@@ -11,7 +11,7 @@ var db = {
             if (shouldFailPharmacy) {
                 callback('error');
             } else {
-                callback();
+                callback(null, {_id: 'pharmacy_id'});
             }
         }
     },
@@ -20,7 +20,7 @@ var db = {
             if (shouldFailUser) {
                 callback('error')
             } else {
-                callback();
+                callback(null, {_id: 'user_id', state: 'WAITING'});
             }
         }
     },
@@ -43,7 +43,8 @@ describe('Register', function() {
             it('should resolve promise', function() {
                 return register.registerPharmacy(dto).then(
                     function(result) {
-                        assert.ok(result);
+                        assert.ok(result.pharmacy._id == 'pharmacy_id');
+                        assert.ok(result.user._id == 'user_id');
                     },
                     function() {
                         assert.fail();

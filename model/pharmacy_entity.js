@@ -42,11 +42,11 @@ function Pharmacy(dto) {
     this.save = function(db) {
         var def = q.defer();
         var p = this.persistable(db);
-        p.save(function(err) {
+        p.save(function(err, pharmacy) {
             if(err) {
                 def.reject(err);
             } else {
-                def.resolve(p);
+                def.resolve(pharmacy);
             }
         });
         return def.promise;

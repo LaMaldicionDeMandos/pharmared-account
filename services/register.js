@@ -31,7 +31,8 @@ function RegisterService(db) {
             defer.reject('User is invalid');
         });
         q.all([pharmacyPromise, userPromise]).done(function(values) {
-            defer.resolve({pharmacy: pharmacy, user: user});
+
+            defer.resolve({pharmacy: values[0], user: values[1]});
         });
         return defer.promise;
     };

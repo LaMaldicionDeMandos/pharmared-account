@@ -49,7 +49,7 @@ function User(dto) {
     this.save = function(db) {
         var def = q.defer();
         var user = this.persistable(db);
-        user.save(function(err) {
+        user.save(function(err, user) {
             if(err) {
                 def.reject(err);
             } else {
