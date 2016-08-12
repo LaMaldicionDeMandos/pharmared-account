@@ -42,6 +42,7 @@ function User(dto) {
         user.entity = this.entity.id;
         user.role = this.role;
         user.profile = this.profile;
+        user.state = this.state.toString();
         return user;
     };
 

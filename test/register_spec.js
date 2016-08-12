@@ -50,6 +50,17 @@ describe('Register', function() {
                     }
                 );
             });
+            it('should create user with WAITING state', function() {
+                return register.registerPharmacy(dto).then(
+                    function(result) {
+                        assert.equal(result.user.state.toString(), 'WAITING');
+                        assert.ok(result);
+                    },
+                    function() {
+                        assert.fail();
+                    }
+                );
+            });
         });
         describe('Create a but fail save', function() {
             var address = {};

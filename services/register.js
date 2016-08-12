@@ -14,7 +14,9 @@ function RegisterService(db) {
         dto.entity = pharmacy;
         dto.role = 'root';
         dto.type = 'root';
+
         var user = new User(dto);
+        user.state = User.State.WAITING;
         if (!pharmacy.validate()) {
             defer.reject('Pharmacy is invalid');
         }
