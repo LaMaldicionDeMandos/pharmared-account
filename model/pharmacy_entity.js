@@ -59,8 +59,6 @@ function Pharmacy(dto) {
         return validateEmpty(this.name) &&
                 validateEmpty(this.phantasy_name) &&
                 validateEmpty(this.cuit) &&
-                validateEmpty(this.enrollment) &&
-                validateEmpty(this.pharmacist) &&
                 this.address != null && this.address.validate();
     }
 }

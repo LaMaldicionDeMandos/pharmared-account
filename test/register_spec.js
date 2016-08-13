@@ -34,7 +34,7 @@ describe('Register', function() {
     describe('Create a pharmacy', function() {
         describe('Create a valid pharmacy', function() {
             var dto = {street:'lavalleja',number:'1745', city:'Quilmes Oeste', name: 'name', phantasy_name: 'f1',
-                cuit: 'cuit', enrollment: '1234', pharmacist:'juan', email: 'pasutmarcelo@gmail.com'};
+                cuit: 'cuit', enrollment: '1234', pharmacist:'juan', email: 'pasutmarcelo@gmail.com', province: 'ba'};
             var register;
             beforeEach(function() {
                 register = new Register(db);
@@ -66,7 +66,7 @@ describe('Register', function() {
             var address = {};
             var dto = {street:'lavalleja',number:'1745', city:'Quilmes Oeste', name: 'name', phantasy_name: 'f1',
                 cuit: 'cuit', enrollment: 'address', address: address, pharmacist:'juan',
-                email: 'pasutmarcelo@gmail.com', password: 'aaaaaaa1', type: 'root'};
+                email: 'pasutmarcelo@gmail.com', password: 'aaaaaaa1', type: 'root', province: 'ba'};
             var register;
             beforeEach(function() {
                 shouldFailPharmacy = true;
@@ -90,7 +90,7 @@ describe('Register', function() {
             var address = {};
             var dto = {number:'1745', city:'Quilmes Oeste', name: 'name', phantasy_name: 'f1',
                 cuit: 'cuit', enrollment: 'address', address: address, pharmacist:'juan',
-                email: 'pasutmarcelo@gmail.com', password: 'aaaaaaa1', type: 'root'};
+                email: 'pasutmarcelo@gmail.com', password: 'aaaaaaa1', type: 'root', province: 'ba'};
             var register;
             beforeEach(function() {
                 register = new Register(db);

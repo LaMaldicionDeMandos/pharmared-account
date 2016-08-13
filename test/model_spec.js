@@ -46,24 +46,28 @@ describe('Model', function() {
         });
         describe('Validate Address', function() {
             it('should return false if street is invalid', function() {
-                var address = new Address({number:'1745', city: 'Quilmes Oeste'});
+                var address = new Address({number:'1745', city: 'Quilmes Oeste', province:'ba'});
                 assert.ok(!address.validate());
             });
             it('should return false if number is invalid', function() {
-                var address = new Address({street:'lavalleja', city: 'Quilmes Oeste'});
+                var address = new Address({street:'lavalleja', city: 'Quilmes Oeste', province:'ba'});
                 assert.ok(!address.validate());
             });
             it('should return false if city is invalid', function() {
-                var address = new Address({street:'lavalleja',number:'1745'});
+                var address = new Address({street:'lavalleja',number:'1745', province: 'ba'});
+                assert.ok(!address.validate());
+            });
+            it('should return false if province is invalid', function() {
+                var address = new Address({street:'lavalleja',number:'1745', city:'city'});
                 assert.ok(!address.validate());
             });
             it('should return true if all is correct', function() {
-                var address = new Address({street:'lavalleja',number:'1745', city:'Quilmes Oeste'});
+                var address = new Address({street:'lavalleja',number:'1745', city:'Quilmes Oeste', province: 'ba'});
                 assert.ok(address.validate());
             });
         });
         describe('Validate Pharmacy', function() {
-            var address = new Address({street:'lavalleja',number:'1745', city:'Quilmes Oeste'});
+            var address = new Address({street:'lavalleja',number:'1745', city:'Quilmes Oeste', province: 'ba'});
             it('should return false if name is invalid', function() {
                 var pharmacy = new Pharmacy({phantasy_name: 'f1', cuit: 'cuit', enrollment: '11', address: address,
                 phone:'phone', image: 'image', pharmacist:'juan'});
@@ -79,19 +83,9 @@ describe('Model', function() {
                     phone:'phone', image: 'image', pharmacist:'juan'});
                 assert.ok(!pharmacy.validate());
             });
-            it('should return false if enrollment is invalid', function() {
-                var pharmacy = new Pharmacy({name: 'name', phantasy_name: 'f1', cuit: 'cuit', address: address,
-                    phone:'phone', image: 'image', pharmacist:'juan'});
-                assert.ok(!pharmacy.validate());
-            });
             it('should return false if address is invalid', function() {
                 var pharmacy = new Pharmacy({name: 'name', phantasy_name: 'f1', cuit: 'cuit', enrollment: 'address',
                     phone:'phone', image: 'image', pharmacist:'juan'});
-                assert.ok(!pharmacy.validate());
-            });
-            it('should return false if phsrmscist is invalid', function() {
-                var pharmacy = new Pharmacy({name: 'name', phantasy_name: 'f1', cuit: 'cuit', enrollment: 'address',
-                    address: address, phone:'phone', image: 'image'});
                 assert.ok(!pharmacy.validate());
             });
             it('should return true if all required attributes are valid', function() {
@@ -102,7 +96,7 @@ describe('Model', function() {
         });
         describe('Validate User', function() {
             it('should return true if all required attributes are valid', function() {
-                var address = new Address({street:'lavalleja',number:'1745', city:'Quilmes Oeste'});
+                var address = new Address({street:'lavalleja',number:'1745', city:'Quilmes Oeste', province: 'ba'});
                 var pharmacy = new Pharmacy({name: 'name', phantasy_name: 'f1', cuit: 'cuit', enrollment: 'address',
                     address: address, pharmacist:'juan'});
                 var user = new User({email: 'pasutmarcelo@gmail.com', password: 'aaaaaaa1', type: 'root',
@@ -110,14 +104,14 @@ describe('Model', function() {
                 assert.ok(user.validate());
             });
             it('should return false if email is empty', function() {
-                var address = new Address({street:'lavalleja',number:'1745', city:'Quilmes Oeste'});
+                var address = new Address({street:'lavalleja',number:'1745', city:'Quilmes Oeste', province: 'ba'});
                 var pharmacy = new Pharmacy({name: 'name', phantasy_name: 'f1', cuit: 'cuit', enrollment: 'address',
                     address: address, pharmacist:'juan'});
                 var user = new User({password: 'aaaaaaa1', type: 'root', entity: pharmacy, role: 'root'});
                 assert.ok(!user.validate());
             });
             it('should return false if email is invalid', function() {
-                var address = new Address({street:'lavalleja',number:'1745', city:'Quilmes Oeste'});
+                var address = new Address({street:'lavalleja',number:'1745', city:'Quilmes Oeste', province: 'ba'});
                 var pharmacy = new Pharmacy({name: 'name', phantasy_name: 'f1', cuit: 'cuit', enrollment: 'address',
                     address: address, pharmacist:'juan'});
                 var user = new User({email: 'pasutmarcelo@ gmail.com', password: 'aaaaaaa1', type: 'root',
@@ -125,7 +119,7 @@ describe('Model', function() {
                 assert.ok(!user.validate());
             });
             it('should return false if password is invalid', function() {
-                var address = new Address({street:'lavalleja',number:'1745', city:'Quilmes Oeste'});
+                var address = new Address({street:'lavalleja',number:'1745', city:'Quilmes Oeste', province: 'ba'});
                 var pharmacy = new Pharmacy({name: 'name', phantasy_name: 'f1', cuit: 'cuit', enrollment: 'address',
                     address: address, pharmacist:'juan'});
                 var user = new User({email: 'pasutmarcelo@gmail.com', password: 'aaaaaaa', type: 'root',
@@ -133,7 +127,7 @@ describe('Model', function() {
                 assert.ok(!user.validate());
             });
             it('should return false if password is empty', function() {
-                var address = new Address({street:'lavalleja',number:'1745', city:'Quilmes Oeste'});
+                var address = new Address({street:'lavalleja',number:'1745', city:'Quilmes Oeste', province: 'ba'});
                 var pharmacy = new Pharmacy({name: 'name', phantasy_name: 'f1', cuit: 'cuit', enrollment: 'address',
                     address: address, pharmacist:'juan'});
                 var user = new User({email: 'pasutmarcelo@gmail.com', type: 'root',
@@ -141,7 +135,7 @@ describe('Model', function() {
                 assert.ok(!user.validate());
             });
             it('should return false if root is empty', function() {
-                var address = new Address({street:'lavalleja',number:'1745', city:'Quilmes Oeste'});
+                var address = new Address({street:'lavalleja',number:'1745', city:'Quilmes Oeste', province: 'ba'});
                 var pharmacy = new Pharmacy({name: 'name', phantasy_name: 'f1', cuit: 'cuit', enrollment: 'address',
                     address: address, pharmacist:'juan'});
                 var user = new User({email: 'pasutmarcelo@gmail.com', password: 'aaaaaaa1', entity: pharmacy,
@@ -149,7 +143,7 @@ describe('Model', function() {
                 assert.ok(!user.validate());
             });
             it('should return false if pharmacy is empty', function() {
-                var address = new Address({street:'lavalleja',number:'1745', city:'Quilmes Oeste'});
+                var address = new Address({street:'lavalleja',number:'1745', city:'Quilmes Oeste', province: 'ba'});
                 var pharmacy = new Pharmacy({name: 'name', phantasy_name: 'f1', cuit: 'cuit', enrollment: 'address',
                     address: address, pharmacist:'juan'});
                 var user = new User({email: 'pasutmarcelo@ gmail.com', password: 'aaaaaaa1', type: 'root',
@@ -157,7 +151,7 @@ describe('Model', function() {
                 assert.ok(!user.validate());
             });
             it('should return false if pharmacy is invalid', function() {
-                var address = new Address({street:'lavalleja',number:'1745', city:'Quilmes Oeste'});
+                var address = new Address({street:'lavalleja',number:'1745', city:'Quilmes Oeste', province: 'ba'});
                 var pharmacy = new Pharmacy({phantasy_name: 'f1', cuit: 'cuit', enrollment: 'address',
                     address: address, pharmacist:'juan'});
                 var user = new User({email: 'pasutmarcelo@ gmail.com', password: 'aaaaaaa1', type: 'root',
@@ -165,7 +159,7 @@ describe('Model', function() {
                 assert.ok(!user.validate());
             });
             it('should return false if role is empty', function() {
-                var address = new Address({street:'lavalleja',number:'1745', city:'Quilmes Oeste'});
+                var address = new Address({street:'lavalleja',number:'1745', city:'Quilmes Oeste', province: 'ba'});
                 var pharmacy = new Pharmacy({name: 'name', phantasy_name: 'f1', cuit: 'cuit', enrollment: 'address',
                     address: address, pharmacist:'juan'});
                 var user = new User({email: 'pasutmarcelo@ gmail.com', password: 'aaaaaaa1', type: 'root',
