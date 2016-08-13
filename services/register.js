@@ -8,6 +8,13 @@ var Address = require('../model/address');
 var Pharmacy = require('../model/pharmacy_entity');
 var User = require('../model/user');
 function RegisterService(db) {
+    this.existUser = function(user) {
+        var def = q.defer();
+        db.User.where({email: user.email}).count().exec(function(err, result) {
+            def.resolve(result > 0);
+        });
+        return def.promise;
+    }
     this.registerPharmacy = function(dto) {
         var defer = q.defer();
         var address = new Address(dto);

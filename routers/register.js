@@ -7,15 +7,18 @@ var router = require('express').Router();
 
 var registerPharmacy = function(req, res) {
     var dto = req.body;
-    var promise = service.registerPharmacy(dto);
-    promise.then(
-        function(request) {
-            res.sendStatus(200);
+    service.existUser(dto).then(
+        function(exist) {
+            if (!exist) {
+                return service.registerPharmacy(dto);
+            } else {
+                res.status(400).send('exist_user');
+            }
         },
-        function() {
-            res.sendStatus(400);
-        }
-    );
+        function(error) {
+            res.status(400).send(error);}
+    ).then(function (result) {res.send(result);}, function(error) {
+        res.status(400).send(error);});
 };
 
 router.post('/pharmacy', registerPharmacy);

@@ -5,6 +5,8 @@ var q = require('q');
 var validateEmpty = require('./model_validations').validateEmpty;
 var SCOPE = require('./scope').ELIGIBLE;
 var TYPE = require('./entity_type').PHARMACY;
+//TODO enrollment y pharmacy no deberian ser obligatorios
+//TODO Agregar provincia
 function Pharmacy(dto) {
     this.id = dto ? dto._id : undefined;
     this.name = dto ? dto.name : undefined;
