@@ -5,6 +5,7 @@ var Register = require('../services/register');
 var assert = require('assert');
 var shouldFailPharmacy = false;
 var shouldFailUser = false;
+var mailService = {sendConfirmationMail: function(){}};
 var db = {
     Entity: function() {
         this.save = function(callback) {
@@ -37,7 +38,7 @@ describe('Register', function() {
                 cuit: 'cuit', enrollment: '1234', pharmacist:'juan', email: 'pasutmarcelo@gmail.com', province: 'ba'};
             var register;
             beforeEach(function() {
-                register = new Register(db);
+                register = new Register(db, mailService);
             });
             it('should resolve promise', function() {
                 return register.registerPharmacy(dto).then(
@@ -70,7 +71,7 @@ describe('Register', function() {
             var register;
             beforeEach(function() {
                 shouldFailPharmacy = true;
-                register = new Register(db);
+                register = new Register(db, mailService);
             });
             afterEach(function() {
                 shouldFailPharmacy = false;
@@ -93,7 +94,7 @@ describe('Register', function() {
                 email: 'pasutmarcelo@gmail.com', password: 'aaaaaaa1', type: 'root', province: 'ba'};
             var register;
             beforeEach(function() {
-                register = new Register(db);
+                register = new Register(db, mailService);
             });
             it('should reject promise', function() {
                 return register.registerPharmacy(dto).then(

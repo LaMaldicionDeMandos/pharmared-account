@@ -2,7 +2,8 @@
  * Created by boot on 8/12/16.
  */
 var Service = require('../services/register');
-var service = new Service(db);
+var MailService = require('../services/confirmation_email');
+var service = new Service(db, new MailService(config));
 var router = require('express').Router();
 
 var registerPharmacy = function(req, res) {

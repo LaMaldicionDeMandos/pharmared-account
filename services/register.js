@@ -7,7 +7,7 @@ var passwordGenerator = require('generate-password');
 var Address = require('../model/address');
 var Pharmacy = require('../model/pharmacy_entity');
 var User = require('../model/user');
-function RegisterService(db) {
+function RegisterService(db, mailService) {
     this.existUser = function(user) {
         var def = q.defer();
         db.User.where({email: user.email}).count().exec(function(err, result) {
@@ -42,7 +42,10 @@ function RegisterService(db) {
             defer.reject('User is invalid');
         });
         q.all([pharmacyPromise, userPromise]).done(function(values) {
-            defer.resolve({pharmacy: values[0], user: values[1], password: password});
+            var pharmacy = values[0];
+            var user = values[1];
+            mailService.sendConfirmationMail(user, password);
+            defer.resolve({pharmacy: pharmacy, user: user, password: password});
         });
         return defer.promise;
     };
