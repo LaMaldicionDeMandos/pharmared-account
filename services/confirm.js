@@ -19,11 +19,7 @@ function ConfirmationService(db) {
         return findById(id).then(user => {
             if (user.state == User.State.WAITING) {
                 user.state = User.State.EXPIRED;
-                user.save(err => {
-                    if (err != null) {
-                        throw new Error('unknown_error');
-                    }
-                });
+                user.save();
             } else {
                 throw new Error('invalid_state');
             }
