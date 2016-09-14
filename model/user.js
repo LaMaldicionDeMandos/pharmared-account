@@ -12,6 +12,8 @@ State.WAITING = new State();
 State.WAITING.toString = function() { return 'WAITING'};
 State.ACTIVE = new State();
 State.ACTIVE.toString = function() { return 'ACTIVE'};
+State.EXPIRED = new State();
+State.EXPIRED.toString = function() { return 'EXPIRED'};
 
 State.parse = function(name) { return State[name];}
 
