@@ -6,7 +6,9 @@ var Service = require('../services/confirm');
 var service = new Service(db);
 var confirm = function(req, res) {
     var id = req.params.id;
-    service.confirm(id).then( () => res.redirect(config.redirect_url), () => res.sendStatus(400));
+    service.confirm(id).then(
+        accessToken => res.redirect(config.redirect_url + accessToken),
+        () => res.sendStatus(400));
 };
 
 router.get('/:id', confirm);
