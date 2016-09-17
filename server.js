@@ -3,6 +3,9 @@ config = require('./services/config');
 var DB = require('./services/database');
 db = new DB(config.db_connection);
 
+var redis = require("redis");
+redisClient = redis.createClient(config.redis_port, config.redis_host);
+
 /* Routers */
 var register = require('./routers/register');
 var confirm = require('./routers/confirm');
