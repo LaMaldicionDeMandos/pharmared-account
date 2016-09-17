@@ -19,6 +19,15 @@ function AccessTokenService() {
             });
         return def.promise;
     };
+
+    this.getUserIdByToken = function(accessToken) {
+        var def = q.defer();
+        redisClient.expire(accessToken, config.token_expiration);
+        redisClient.get(accessToken, function(userId) {
+            def.resolve(userId);
+        });
+        return def.promise;
+    }
 }
 
 module.exports = AccessTokenService;
