@@ -27,6 +27,7 @@ function RegisterService(db, mailService) {
 
         var user = new User(dto);
         user.state = User.State.WAITING;
+        user.profile.email = user.email;
         var password = passwordGenerator.generate({length: 8});
         user.password = sha(password);
         if (!pharmacy.validate()) {

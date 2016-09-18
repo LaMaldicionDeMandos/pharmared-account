@@ -35,7 +35,8 @@ describe('Register', function() {
     describe('Create a pharmacy', function() {
         describe('Create a valid pharmacy', function() {
             var dto = {street:'lavalleja',number:'1745', city:'Quilmes Oeste', name: 'name', phantasy_name: 'f1',
-                cuit: 'cuit', enrollment: '1234', pharmacist:'juan', email: 'pasutmarcelo@gmail.com', province: 'ba'};
+                cuit: 'cuit', enrollment: '1234', pharmacist:'juan', email: 'pasutmarcelo@gmail.com', province: 'ba',
+            profile: {}};
             var register;
             beforeEach(function() {
                 register = new Register(db, mailService);
@@ -66,7 +67,7 @@ describe('Register', function() {
         describe('Create a but fail save', function() {
             var address = {};
             var dto = {street:'lavalleja',number:'1745', city:'Quilmes Oeste', name: 'name', phantasy_name: 'f1',
-                cuit: 'cuit', enrollment: 'address', address: address, pharmacist:'juan',
+                cuit: 'cuit', enrollment: 'address', address: address, pharmacist:'juan', profile: {},
                 email: 'pasutmarcelo@gmail.com', password: 'aaaaaaa1', type: 'root', province: 'ba'};
             var register;
             beforeEach(function() {
@@ -90,7 +91,7 @@ describe('Register', function() {
         describe('Create a but fail with invalid address', function() {
             var address = {};
             var dto = {number:'1745', city:'Quilmes Oeste', name: 'name', phantasy_name: 'f1',
-                cuit: 'cuit', enrollment: 'address', address: address, pharmacist:'juan',
+                cuit: 'cuit', enrollment: 'address', address: address, pharmacist:'juan', profile: {},
                 email: 'pasutmarcelo@gmail.com', password: 'aaaaaaa1', type: 'root', province: 'ba'};
             var register;
             beforeEach(function() {
