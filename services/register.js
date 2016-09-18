@@ -20,6 +20,7 @@ function RegisterService(db, mailService) {
         var address = new Address(dto);
         dto.address = address;
         var pharmacy = new Pharmacy(dto);
+        pharmacy.id = new db.ObjectId();
         dto.entity = pharmacy;
         dto.role = 'root';
         dto.type = 'root';

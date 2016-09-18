@@ -31,7 +31,7 @@ function User(dto) {
         return validator.validateEmpty(this.email) && validator.validateEmail(this.email) &&
             validator.validateEmpty(this.password) && validator.validatePassword(this.password) &&
             validator.validateEmpty(this.type) &&
-            this.entity != null && this.entity.validate() &&
+            this.entity != null &&
             validator.validateEmpty(this.role);
     };
 
@@ -41,7 +41,7 @@ function User(dto) {
         user.email = this.email;
         user.password = this.password;
         user.type = this.type;
-        user.entity = this.entity.id;
+        user.entity = this.entity.id.toString();
         user.role = this.role;
         user.profile = this.profile;
         user.state = this.state.toString();

@@ -23,8 +23,12 @@ function AccessTokenService() {
     this.getUserIdByToken = function(accessToken) {
         var def = q.defer();
         redisClient.expire(accessToken, config.token_expiration);
-        redisClient.get(accessToken, function(userId) {
-            def.resolve(userId);
+        redisClient.get(accessToken, function(err, userId) {
+            if (err) {
+                def.reject(err);
+            } else {
+                def.resolve(userId);
+            }
         });
         return def.promise;
     }
