@@ -7,8 +7,7 @@ var service = new Service(db);
 var confirm = function(req, res) {
     var id = req.params.id;
     service.confirm(id).then(
-        accessToken => res.redirect(config.redirect_url + accessToken),
-        () => res.sendStatus(400));
+        accessToken => res.redirect(config.redirect_url + "?accessToken=" + accessToken), () => res.sendStatus(401));
 };
 
 router.get('/:id', confirm);
