@@ -11,19 +11,19 @@ function UserService(db) {
             if (err) {
                 def.reject(err);
             } else {
-                def.resolve(result);
+                def.resolve(user);
             }
         });
         return def.promise;
     }
     this.getUserByAccessToken = function(accessToken) {
-        var def = q.defer();
         return accessTokenService.getUserIdByToken(accessToken)
             .then(this.getUserById)
             .then(user => {
-            user.password = null;
-            user.email = null;
+            user.password = user.email = undefined;
             return user;
         });
     };
-}
+};
+
+module.exports = UserService;
