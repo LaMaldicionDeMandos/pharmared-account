@@ -21,12 +21,15 @@ function AccessTokenService() {
     };
 
     this.getUserIdByToken = function(accessToken) {
+        console.log("Getting userid by accessToken");
         var def = q.defer();
-        redisClient.expire(accessToken, config.token_expiration);
         redisClient.get(accessToken, function(err, userId) {
-            if (err) {
+            if (err || !userId) {
+                console.log("Error: " + err);
                 def.reject(err);
             } else {
+                console.log("found userid: " + userId);
+                redisClient.expire(accessToken, config.token_expiration);
                 def.resolve(userId);
             }
         });

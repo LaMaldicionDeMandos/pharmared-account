@@ -7,7 +7,10 @@ var router = require('express').Router();
 
 var getByAccessToken = function(req, res) {
     var accessToken = req.query.accessToken;
-    service.getUserByAccessToken(accessToken).then(user => res.send(user), error => res.status(401).send(err));
+    console.log('find user with accessToken=' + accessToken);
+    service.getUserByAccessToken(accessToken)
+        .then(user => res.send(user))
+        .catch(error => res.sendStatus(401));
 };
 
 router.get('/', getByAccessToken);
