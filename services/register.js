@@ -32,9 +32,11 @@ function RegisterService(db, mailService) {
         user.password = sha(password);
         if (!pharmacy.validate()) {
             defer.reject('Pharmacy is invalid');
+            return defer.promise;
         }
         if (!user.validate()) {
             defer.reject('User is invalid');
+            return defer.promise;
         }
 
         var pharmacyPromise = pharmacy.save(db).then(null, function() {
