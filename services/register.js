@@ -14,7 +14,14 @@ function RegisterService(db, mailService) {
             def.resolve(result > 0);
         });
         return def.promise;
-    }
+    };
+    this.existPharmacy = function(cuit) {
+        var def = q.defer();
+        db.Entity.where({cuit: cuit}).count().exec(function(err, result) {
+            def.resolve(result > 0);
+        });
+        return def.promise;
+    };
     this.registerPharmacy = function(dto) {
         var defer = q.defer();
         var address = new Address(dto);

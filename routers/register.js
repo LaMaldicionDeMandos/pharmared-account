@@ -11,13 +11,21 @@ var registerPharmacy = function(req, res) {
     service.existUser(dto).then(
         function(exist) {
             if (!exist) {
-                return service.registerPharmacy(dto);
+                return service.existPharmacy(dto.cuit);
             } else {
                 res.status(400).send('exist_user');
             }
         },
         function(error) {
             res.status(400).send(error);}
+    ).then(function(exist) {
+        if (!exist) {
+            return service.registerPharmacy(dto);
+        } else {
+            res.status(400).send('exist_pharmacy');
+        }
+    },function(error) {
+        res.status(400).send(error);}
     ).then(function (result) {res.status(201).send(result);}, function(error) {
         res.status(400).send(error);});
 };
