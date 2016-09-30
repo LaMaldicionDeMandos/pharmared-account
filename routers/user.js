@@ -15,8 +15,14 @@ var getByAccessToken = function(req, res) {
 
 var login = function(req, res) {
     var form = req.body;
-    service.getUserByEmailAndPassword(form.username, form.password).then(user =>
-        accessTokenService.saveAccessToken(user._id)
+    service.getUserByEmailAndPassword(form.username, form.password).then(user => {
+        if (User.State.WAITING == user.state) {
+            res.status(400).send('unactived_user');
+        } else {
+            return accessTokenService.saveAccessToken(user._id);
+        }
+    }
+
     ).then(accessToken => res.status(201).send(accessToken)).catch(error =>res.sendStatus(401));
 };
 
