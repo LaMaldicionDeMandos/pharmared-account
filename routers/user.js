@@ -1,6 +1,7 @@
 /**
  * Created by boot on 9/17/16.
  */
+var User = require('../model/user');
 var Service = require('../services/user_service');
 var AccessTokenService = require('../services/access_token_service');
 var accessTokenService = new AccessTokenService();
@@ -23,7 +24,8 @@ var login = function(req, res) {
         }
     }
 
-    ).then(accessToken => res.status(201).send(accessToken)).catch(error =>res.sendStatus(401));
+    ).then(accessToken => res.status(201).send(accessToken)).catch(
+        error =>res.sendStatus(401));
 };
 
 router.get('/', getByAccessToken);
