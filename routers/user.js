@@ -10,16 +10,14 @@ var router = require('express').Router();
 var getByAccessToken = function(req, res) {
     var accessToken = req.query.accessToken;
     console.log('find user with accessToken=' + accessToken);
-    service.getUserByAccessToken(accessToken)
-        .then(user => res.send(user))
-        .catch(error => res.sendStatus(401));
+    service.getUserByAccessToken(accessToken).then(user => res.send(user)).catch(error => res.sendStatus(401));
 };
 
 var login = function(req, res) {
     var form = req.body;
-    service.getUserByEmailAndPassword(form.username, form.password).then(user => {
-        return accessTokenService.saveAccessToken(user._id);
-    }).then(accessToken => res.statusCode(201).send(accessToken));
+    service.getUserByEmailAndPassword(form.username, form.password).then(user =>
+        accessTokenService.saveAccessToken(user._id)
+    ).then(accessToken => res.status(201).send(accessToken)).catch(error =>res.sendStatus(401));
 };
 
 router.get('/', getByAccessToken);
