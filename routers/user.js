@@ -11,7 +11,10 @@ var router = require('express').Router();
 var getByAccessToken = function(req, res) {
     var accessToken = req.query.accessToken;
     console.log('find user with accessToken=' + accessToken);
-    service.getUserByAccessToken(accessToken).then(user => res.send(user)).catch(error => res.sendStatus(401));
+    service.getUserByAccessToken(accessToken).then(user => {
+        console.log('found user: ' + JSON.stringify(user));
+        res.send(user)
+    }).catch(error => res.sendStatus(401));
 };
 
 var login = function(req, res) {
