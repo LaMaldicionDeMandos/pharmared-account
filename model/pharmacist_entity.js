@@ -15,7 +15,7 @@ function Pharmacist(dto) {
 
     this.scope = SCOPE;
     this.isParent = false;
-    this.unique = true;
+    this.unique = false;
     this.type = TYPE;
 
     this.persistable = function(db) {
@@ -26,7 +26,7 @@ function Pharmacist(dto) {
             enrollment: this.enrollment
         });
         persistable._id = this.id != undefined ? this.id : new db.ObjectId();
-        persistable.name = this.first_name + this.last_name;
+        persistable.name = this.first_name + ' ' + this.last_name;
         persistable.scope = this.scope;
         persistable.isParent = this.isParent;
         persistable.unique = this.unique;
@@ -46,14 +46,14 @@ function Pharmacist(dto) {
             }
         });
         return def.promise;
-    }
+    };
 
     this.validate = function() {
         return validateEmpty(this.first_name) &&
             validateEmpty(this.last_name) &&
             validateEmpty(this.cuit) &&
             validateEmpty(this.enrollment);
-    }
+    };
 }
 
 module.exports = Pharmacist;
