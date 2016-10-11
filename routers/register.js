@@ -6,12 +6,12 @@ var MailService = require('../services/confirmation_email');
 var service = new Service(db, new MailService(config));
 var router = require('express').Router();
 
-var registerPharmacy = function(req, res) {
+var registerEntity = function(req, res, registerClosure, existClosure, existAttribute, existErrorCode) {
     var dto = req.body;
     service.existUser(dto).then(
         function(exist) {
             if (!exist) {
-                return service.existPharmacy(dto.cuit);
+                return existClosure(dto[existAttribute]);
             } else {
                 res.status(400).send('exist_user');
             }
@@ -19,17 +19,27 @@ var registerPharmacy = function(req, res) {
         function(error) {
             res.status(400).send(error);}
     ).then(function(exist) {
-        if (!exist) {
-            return service.registerPharmacy(dto);
-        } else {
-            res.status(400).send('exist_pharmacy');
-        }
-    },function(error) {
-        res.status(400).send(error);}
+            if (!exist) {
+                return registerClosure(dto);
+            } else {
+                res.status(400).send(existErrorCode);
+            }
+        },function(error) {
+            res.status(400).send(error);}
     ).then(function (result) {res.status(201).send(result);}, function(error) {
         res.status(400).send(error);});
 };
 
+var registerPharmacy = function(req, res) {
+    return registerEntity(req, res, service.registerPharmacy, service.existPharmacy, 'cuit', 'exist_pharmacy');
+};
+
+var registerPharmacist = function(req, res) {
+    return registerEntity(req, res, service.registerPharmacist, service.existPharmacist, 'enrollment',
+        'exist_pharmacist');
+};
+
 router.post('/pharmacy', registerPharmacy);
+router.post('/pharmacist', registerPharmacist);
 
 module.exports = router;
