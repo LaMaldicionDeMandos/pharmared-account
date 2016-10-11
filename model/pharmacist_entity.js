@@ -56,4 +56,4 @@ function Pharmacist(dto) {
     }
 }
 
-module.exports = Pharmacy;
+module.exports = Pharmacist;
