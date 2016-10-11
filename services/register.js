@@ -6,7 +6,28 @@ var sha = require('sha256');
 var passwordGenerator = require('generate-password');
 var Address = require('../model/address');
 var Pharmacy = require('../model/pharmacy_entity');
+var Pharmacist = require('../model/pharmacist_entity');
 var User = require('../model/user');
+var PharmacyResolver = function() {
+    this.createEntity = function(dto) {
+        var address = new Address(dto);
+        dto.address = address;
+        return new Pharmacy(dto);
+    };
+    this.entityIsInvalid = 'Pharmacy is Invalid';
+    this.result = function(pharmacy) {
+        return {pharmacy: pharmacy};
+    }
+};
+var PharmacistResolver = function() {
+    this.createEntity = function(dto) {
+        return new Pharmacist(dtp);
+    };
+    this.entityIsInvalid = 'Pharmacist is Invalid';
+    this.result = function(pharmacist) {
+        return {pharmacist: pharmacist};
+    }
+};
 function RegisterService(db, mailService) {
     this.existUser = function(user) {
         var def = q.defer();
@@ -22,13 +43,18 @@ function RegisterService(db, mailService) {
         });
         return def.promise;
     };
-    this.registerPharmacy = function(dto) {
+    this.existPharmacist = function(enrollment) {
+        var def = q.defer();
+        db.Entity.where({enrollment: enrollment}).count().exec(function(err, result) {
+            def.resolve(result > 0);
+        });
+        return def.promise;
+    };
+    this.registerEntity = function(dto, closureObject) {
         var defer = q.defer();
-        var address = new Address(dto);
-        dto.address = address;
-        var pharmacy = new Pharmacy(dto);
-        pharmacy.id = new db.ObjectId();
-        dto.entity = pharmacy;
+        var entity = closureObject.createEntity(dto);
+        entity.id = new db.ObjectId();
+        dto.entity = entity;
         dto.role = 'root';
         dto.type = 'root';
 
@@ -37,8 +63,8 @@ function RegisterService(db, mailService) {
         user.profile.email = user.email;
         var password = passwordGenerator.generate({length: 8});
         user.password = sha(password);
-        if (!pharmacy.validate()) {
-            defer.reject('Pharmacy is invalid');
+        if (!entity.validate()) {
+            defer.reject(closureObject.entityIsInvalid);
             return defer.promise;
         }
         if (!user.validate()) {
@@ -46,19 +72,28 @@ function RegisterService(db, mailService) {
             return defer.promise;
         }
 
-        var pharmacyPromise = pharmacy.save(db).then(null, function() {
-            defer.reject('Pharmacy is invalid');
+        var entityPromise = entity.save(db).then(null, function() {
+            defer.reject(closureObject.entityIsInvalid);
         });
         var userPromise = user.save(db).then(null, function() {
             defer.reject('User is invalid');
         });
-        q.all([pharmacyPromise, userPromise]).done(function(values) {
-            var pharmacy = values[0];
+        q.all([entityPromise, userPromise]).done(function(values) {
+            var entity = values[0];
             var user = values[1];
             mailService.sendConfirmationMail(user, password);
-            defer.resolve({pharmacy: pharmacy, user: user, password: password});
+            var result = closureObject.result(entity);
+            result.user = user;
+            result.password = password;
+            defer.resolve(result);
         });
         return defer.promise;
+    };
+    this.registerPharmacist = function(dto) {
+        registerEntity(dto, new PharmacistResolver());
+    };
+    this.registerPharmacy = function(dto) {
+        return registerEntity(dto, new PharmacyResolver());
     };
 }
 
