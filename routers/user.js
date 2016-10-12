@@ -4,7 +4,7 @@
 var User = require('../model/user');
 var Service = require('../services/user_service');
 var AccessTokenService = require('../services/access_token_service');
-var MailService = require('../services/confirmation_email');
+var MailService = require('../services/email_service');
 var accessTokenService = new AccessTokenService();
 var service = new Service(db);
 var router = require('express').Router();
@@ -35,8 +35,8 @@ var login = function(req, res) {
 var retrievePassword = function(req, res) {
     var username = req.params.email;
     service.retrievePassword(username).then(
-        function(user) {
-//            mailService.sendRetrievePassword(user);
+        function(result) {
+            mailService.sendRetrievePassword(result.user, result.password);
             res.status(201).send('ok');
         },
         function() {

@@ -2,7 +2,7 @@
  * Created by boot on 8/12/16.
  */
 var Service = require('../services/register');
-var MailService = require('../services/confirmation_email');
+var MailService = require('../services/email_service');
 var service = new Service(db, new MailService(config));
 var router = require('express').Router();
 

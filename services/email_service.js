@@ -33,6 +33,17 @@ function Service(config) {
         var promise = mailjet.post("send").request(opts);
         return promise;
     };
+    this.sendRetrievePassword = function (user, password) {
+        var opts = clone(options);
+        opts['MJ-TemplateID'] = config.mailjet_retrieve_template,
+        opts['Recipients'] = [
+            {"Email": user.email, "Vars": {
+                "name": user.profile.first_name,
+                "password": password
+            }}];
+        var promise = mailjet.post("send").request(opts);
+        return promise;
+    };
 }
 
 module.exports = Service;

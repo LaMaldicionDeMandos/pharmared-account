@@ -55,7 +55,7 @@ function UserService(db) {
                 var password = passwordGenerator.generate({length: 8});
                 user.password = sha(password);
                 user.save();
-                return user;
+                return {user:user, password: password};
             }
         );
     };
