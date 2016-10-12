@@ -38,6 +38,9 @@ var retrievePassword = function(req, res) {
         function(user) {
 //            mailService.sendRetrievePassword(user);
             res.status(201).send('ok');
+        },
+        function() {
+            res.status(400).send();
         }
     )
 }
