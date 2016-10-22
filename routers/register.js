@@ -13,21 +13,19 @@ var registerEntity = function(req, res, registerClosure, existClosure, existAttr
             if (!exist) {
                 return existClosure(dto[existAttribute]);
             } else {
-                res.status(400).send('exist_user');
+                throw new Error('exist_user');
             }
-        },
-        function(error) {
-            res.status(400).send(error);}
+        }
     ).then(function(exist) {
             if (!exist) {
                 return registerClosure(dto);
             } else {
-                res.status(400).send(existErrorCode);
+                throw new Error(existErrorCode);
             }
-        },function(error) {
-            res.status(400).send(error);}
-    ).then(function (result) {res.status(201).send(result);}, function(error) {
-        res.status(400).send(error);});
+        }
+    ).then(function (result) {
+        res.status(201).send(result);}, function(error) {
+        res.status(400).send(error.message);});
 };
 
 var registerPharmacy = function(req, res) {
