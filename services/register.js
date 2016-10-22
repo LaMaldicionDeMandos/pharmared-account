@@ -54,19 +54,19 @@ function registerEntity(dto, closureObject, mailService) {
     var password = passwordGenerator.generate({length: 8});
     user.password = sha(password);
     if (!entity.validate()) {
-        defer.reject(closureObject.entityIsInvalid);
+        defer.reject(new Error(closureObject.entityIsInvalid));
         return defer.promise;
     }
     if (!user.validate()) {
-        defer.reject('User is invalid');
+        defer.reject(new Error('User is invalid'));
         return defer.promise;
     }
 
     var entityPromise = entity.save(db).then(null, function() {
-        defer.reject(closureObject.entityIsInvalid);
+        defer.reject(new Error(closureObject.entityIsInvalid));
     });
     var userPromise = user.save(db).then(null, function() {
-        defer.reject('User is invalid');
+        defer.reject(new Error('User is invalid'));
     });
     q.all([entityPromise, userPromise]).done(function(values) {
         var entity = values[0];
