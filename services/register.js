@@ -7,6 +7,7 @@ var passwordGenerator = require('generate-password');
 var Address = require('../model/address');
 var Pharmacy = require('../model/pharmacy_entity');
 var Pharmacist = require('../model/pharmacist_entity');
+var Laboratory = require('../model/laboratory_entity');
 var User = require('../model/user');
 function PharmacyResolver() {
     this.createEntity = function(dto) {
@@ -17,6 +18,17 @@ function PharmacyResolver() {
     this.entityIsInvalid = 'Pharmacy is Invalid';
     this.result = function(pharmacy) {
         return {pharmacy: pharmacy};
+    }
+};
+function LaboratoryResolver() {
+    this.createEntity = function(dto) {
+        var address = new Address(dto);
+        dto.address = address;
+        return new Laboratory(dto);
+    };
+    this.entityIsInvalid = 'Laboratory is Invalid';
+    this.result = function(laboratory) {
+        return {laboratory: laboratory};
     }
 };
 function PharmacistResolver() {
@@ -94,6 +106,9 @@ function RegisterService(db, mailService) {
     };
     this.registerPharmacy = function(dto) {
         return registerEntity(dto, new PharmacyResolver(), mailService);
+    };
+    this.registerLaboratory = function(dto) {
+        return registerEntity(dto, new LaboratoryResolver(), mailService);
     };
 }
 
