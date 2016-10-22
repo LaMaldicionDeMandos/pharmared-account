@@ -87,12 +87,15 @@ function RegisterService(db, mailService) {
         });
         return def.promise;
     };
-    this.existPharmacy = function(cuit) {
+    var existCuit = function(cuit) {
         var def = q.defer();
         db.Entity.where({cuit: cuit}).count().exec(function(err, result) {
             def.resolve(result > 0);
         });
         return def.promise;
+    };
+    this.existPharmacy = function(cuit) {
+        return existCuit(cuit);
     };
     this.existPharmacist = function(enrollment) {
         var def = q.defer();
@@ -100,6 +103,9 @@ function RegisterService(db, mailService) {
             def.resolve(result > 0);
         });
         return def.promise;
+    };
+    this.existLaboratory = function(cuit) {
+        return existCuit(cuit);
     };
     this.registerPharmacist = function(dto) {
         return registerEntity(dto, new PharmacistResolver(), mailService);
