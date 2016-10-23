@@ -13,6 +13,8 @@ EntityType.PHARMACIST = new EntityType();
 EntityType.PHARMACIST.toString = function() { return 'PHARMACIST'};
 EntityType.LABORATORY = new EntityType();
 EntityType.LABORATORY.toString = function() { return 'LABORATORY'};
+EntityType.DRUGSTORE = new EntityType();
+EntityType.DRUGSTORE.toString = function() { return 'DRUGSTORE'};
 
 EntityType.parse = function(name) { return EntityType[name];}
 
