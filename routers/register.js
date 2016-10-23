@@ -41,8 +41,13 @@ var registerLaboratory = function(req, res) {
     return registerEntity(req, res, service.registerLaboratory, service.existLaboratory, 'cuit', 'exist_laboratory');
 };
 
+var registerDrugstore = function(req, res) {
+    return registerEntity(req, res, service.registerDrugstore, service.existDrugstore, 'cuit', 'exist_drugstore');
+};
+
 router.post('/pharmacy', registerPharmacy);
 router.post('/pharmacist', registerPharmacist);
 router.post('/laboratory', registerLaboratory);
+router.post('/drugstore', registerDrugstore);
 
 module.exports = router;
