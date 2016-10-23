@@ -8,6 +8,7 @@ var Address = require('../model/address');
 var Pharmacy = require('../model/pharmacy_entity');
 var Pharmacist = require('../model/pharmacist_entity');
 var Laboratory = require('../model/laboratory_entity');
+var Drugstore = require('../model/drugstore_entity');
 var User = require('../model/user');
 function PharmacyResolver() {
     this.createEntity = function(dto) {
@@ -29,6 +30,17 @@ function LaboratoryResolver() {
     this.entityIsInvalid = 'Laboratory is Invalid';
     this.result = function(laboratory) {
         return {laboratory: laboratory};
+    }
+};
+function DrugstoreResolver() {
+    this.createEntity = function(dto) {
+        var address = new Address(dto);
+        dto.address = address;
+        return new Drugstore(dto);
+    };
+    this.entityIsInvalid = 'Drugstore is Invalid';
+    this.result = function(drugstore) {
+        return {drugstore: drugstore};
     }
 };
 function PharmacistResolver() {
@@ -107,6 +119,9 @@ function RegisterService(db, mailService) {
     this.existLaboratory = function(cuit) {
         return existCuit(cuit);
     };
+    this.existDrugstore = function(cuit) {
+        return existCuit(cuit);
+    };
     this.registerPharmacist = function(dto) {
         return registerEntity(dto, new PharmacistResolver(), mailService);
     };
@@ -115,6 +130,9 @@ function RegisterService(db, mailService) {
     };
     this.registerLaboratory = function(dto) {
         return registerEntity(dto, new LaboratoryResolver(), mailService);
+    };
+    this.registerDrugstore = function(dto) {
+        return registerEntity(dto, new DrugstoreResolver(), mailService);
     };
 }
 
