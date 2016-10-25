@@ -9,7 +9,15 @@ var accessTokenService = new AccessTokenService();
 var service = new Service(db);
 var router = require('express').Router();
 
-var mailService = new MailService(config)
+var mailService = new MailService(config);
+
+var verifyInternals = function(req, res, next) {
+    if (req.get('Internal') == config.private_key) {
+        next();
+    } else {
+        res.status(401).send();
+    }
+};
 
 var getByAccessToken = function(req, res) {
     var accessToken = req.query.accessToken;
@@ -45,11 +53,19 @@ var retrievePassword = function(req, res) {
     )
 };
 
+var getEntityType = function(req, res) {
+    var id = req.params.id;
+    service.getEntityByUsername(id).then(function(entity) {
+        res.send(entity.type);
+    },
+    function(err) {
+        res.status(400).send(err);
+    });
+};
+
 router.get('/', getByAccessToken);
 router.post('/login', login);
 router.post('/retrieve/:email', retrievePassword);
-router.get('/:id/entity/type', function(req, res) {
-    res.send(200);
-});
+router.get('/internal/:id/entity/type', verifyInternals, getEntityType);
 
 module.exports = router;

@@ -60,7 +60,7 @@ function UserService(db) {
         );
     };
     this.getEntityByUsername = function(username) {
-        this.getUserByEmail(username).then(user => {
+        return this.getUserByEmail(username).then(user => {
             var def = q.defer();
             if (user) {
                 db.Entity.findOne({_id:user.entity}, function(err, entity) {
@@ -74,7 +74,7 @@ function UserService(db) {
                 def.reject();
             }
             return def.promise;
-        })
+        });
     }
 };
 
