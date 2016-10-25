@@ -59,6 +59,23 @@ function UserService(db) {
             }
         );
     };
+    this.getEntityByUsername = function(username) {
+        this.getUserByEmail(username).then(user => {
+            var def = q.defer();
+            if (user) {
+                db.Entity.findOne({_id:user.entity}, function(err, entity) {
+                    if (err) {
+                        def.reject(err);
+                    }else {
+                        def.resolve(entity);
+                    }
+                });
+            } else {
+                def.reject();
+            }
+            return def.promise;
+        })
+    }
 };
 
 module.exports = UserService;

@@ -43,10 +43,13 @@ var retrievePassword = function(req, res) {
             res.status(400).send();
         }
     )
-}
+};
 
 router.get('/', getByAccessToken);
 router.post('/login', login);
 router.post('/retrieve/:email', retrievePassword);
+router.get('/:id/entity/type', function(req, res) {
+    res.send(200);
+});
 
 module.exports = router;
