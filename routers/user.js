@@ -31,6 +31,9 @@ var getByAccessToken = function(req, res) {
 var login = function(req, res) {
     var form = req.body;
     service.getUserByEmailAndPassword(form.username, form.password).then(user => {
+        if (user == undefined) {
+            throw new Error('login_invalid');
+        }
         if (User.State.WAITING == user.state) {
             throw new Error('unactived_user');
         } else {
