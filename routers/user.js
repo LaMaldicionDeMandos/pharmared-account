@@ -66,9 +66,19 @@ var getEntityType = function(req, res) {
     });
 };
 
+var getMyProfile = function(req, res) {
+    var accessToken = req.query.accessToken;
+    console.log('find profile with accessToken=' + accessToken);
+    service.getProfileByAccessToken(accessToken).then(profile => {
+        console.log('found profile: ' + JSON.stringify(profile));
+        res.send(profile);
+    }).catch(error => res.sendStatus(401));
+}
+
 router.get('/', getByAccessToken);
 router.post('/login', login);
 router.post('/retrieve/:email', retrievePassword);
 router.get('/internal/:id/entity/type', verifyInternals, getEntityType);
+router.get('/profile/me', getMyProfile);
 
 module.exports = router;
