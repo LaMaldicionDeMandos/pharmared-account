@@ -75,6 +75,9 @@ function UserService(db) {
             }
             return def.promise;
         });
+    };
+    this.getProfileByAccessToken = function(accessToken) {
+        return this.getUserByAccessToken(accessToken).then(user => user.profile);
     }
 };
 
