@@ -73,12 +73,23 @@ var getMyProfile = function(req, res) {
         console.log('found profile: ' + JSON.stringify(profile));
         res.send(profile);
     }).catch(error => res.sendStatus(401));
-}
+};
+
+var updateProfile = function(req, res) {
+    var accessToken = req.query.accessToken;
+    var profile = req.body;
+    console.log('update profile with accessToken=' + accessToken + " - profile= " + JSON.stringify(profile));
+    service.updateProfile(accessToken, profile).then(profile => {
+        console.log('profile updated: ' + JSON.stringify(profile));
+        res.send(profile);
+    }).catch(error => res.sendStatus(401));
+};
 
 router.get('/', getByAccessToken);
 router.post('/login', login);
 router.post('/retrieve/:email', retrievePassword);
 router.get('/internal/:id/entity/type', verifyInternals, getEntityType);
 router.get('/profile/me', getMyProfile);
+router.put('/profile/me', updateProfile);
 
 module.exports = router;

@@ -81,7 +81,22 @@ function UserService(db) {
             user.profile.roles = user.role;
             return user.profile;
         });
-    }
+    };
+    this.updateProfile = function(accessToken, profile) {
+        var def = q.defer();
+        this.getUserByAccessToken(accessToken).then(user => {
+            delete profile.roles;
+            user.profile = profile;
+            user.save(function(err, user) {
+                if (err) {
+                    def.reject(err);
+                } else {
+                    def.resolve(profile);
+                }
+            });
+        });
+        return def.promise;
+    };
 };
 
 module.exports = UserService;
