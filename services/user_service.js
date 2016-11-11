@@ -77,7 +77,10 @@ function UserService(db) {
         });
     };
     this.getProfileByAccessToken = function(accessToken) {
-        return this.getUserByAccessToken(accessToken).then(user => user.profile);
+        return this.getUserByAccessToken(accessToken).then(user => {
+            user.profile.roles = user.role;
+            return user.profile;
+        });
     }
 };
 
