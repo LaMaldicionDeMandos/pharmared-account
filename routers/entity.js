@@ -7,6 +7,23 @@ var userService = new UserService(db);
 var entityService = new EntityService(db);
 var router = require('express').Router();
 
+var validateEntityWithAccessToken = function(req, res, next) {
+    var accessToken = req.query.accessToken;
+    var entity = req.body;
+    userService.getUserByAccessToken(accessToken)
+        .then(user => {
+            if (entity._id != user.entity) {
+                console.log('unauthorized: invalid accessToken');
+                throw new Error('unauthorized: invalid accessToken');
+            }
+            return accessToken;
+        })
+        .then(() => {
+            next();
+        })
+        .catch(error => res.sendStatus(401));
+}
+
 var myEntity = function(req, res) {
     var accessToken = req.query.accessToken;
     console.log('find entity with accessToken=' + accessToken);
@@ -21,6 +38,16 @@ var myEntity = function(req, res) {
         .catch(error => res.sendStatus(401));
 };
 
+var updateMyEntity = function(req, res) {
+    var accessToken = req.query.accessToken;
+    console.log('find entity with accessToken=' + accessToken);
+    var entity = req.body;
+    entityService.updateEntity(entity)
+        .then(updated => res.send(updated))
+        .catch(error => res.status(400).send(error));
+};
+
 router.get('/me', myEntity);
+router.put('/me', validateEntityWithAccessToken, updateMyEntity);
 
 module.exports = router;
