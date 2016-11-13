@@ -35,6 +35,7 @@ function EntityService(db) {
             if (err) {
                 def.reject(err);
             } else {
+                entity.__v = undefined;
                 def.resolve(entity);
             }
         });
@@ -45,7 +46,13 @@ function EntityService(db) {
         this.getEntityById(entity._id).then(old => {
             var validationErrors = validateStaticProperties(entity, old);
             if (validationErrors.length == 0) {
-                entity.
+                old.update(entity, err => {
+                    if (err) {
+                        def.reject(err);
+                    } else {
+                        def.resolve(entity);
+                    }
+                })
             } else {
                 def.reject(validationErrors);
             }
