@@ -87,11 +87,12 @@ function UserService(db) {
         this.getUserByAccessToken(accessToken).then(user => {
             delete profile.roles;
             user.profile = profile;
-            user.save(function(err, user) {
+            user.update(user, err => {
                 if (err) {
                     def.reject(err);
                 } else {
-                    def.resolve(profile);
+                    user.profile.roles = user.role;
+                    def.resolve(user.profile);
                 }
             });
         });
