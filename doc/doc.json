@@ -1,0 +1,452 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "0.0.1",
+        "title": "pharmared api Account",
+        "description": "Api relacionada con el manejo de usuarios y entidades",
+        "contact": {
+            "name": "Pharmared API team",
+            "email": "pasutmarcelo@gmail.com"
+        }
+    },
+    "host": "farmared.com.ar",
+    "basePath": "/api/accounts",
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/register/pharmacy": {
+            "post": {
+                "description": "Crea una farmacia con su respectivo usuario",
+                "operationId": "addPharmacy",
+                "parameters": [
+                    {
+                        "name": "form",
+                        "in": "body",
+                        "description": "formulario de farmacia",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity_form"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Farmacia y usuario",
+                        "schema": {
+                            "$ref": "#/definitions/user_and_pharmacy"
+                        }
+                    },
+                    "400": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/pharmacy_error"
+                        }
+                    }
+                }
+            }
+        },
+        "/register/pharmacist": {
+            "post": {
+                "description": "Crea un farmaceutico con su respectivo usuario",
+                "operationId": "addPharmacist",
+                "parameters": [
+                    {
+                        "name": "form",
+                        "in": "body",
+                        "description": "formulario de farmaceutico",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/pharmacist_form"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Farmaceutico y usuario",
+                        "schema": {
+                            "$ref": "#/definitions/user_and_pharmacist"
+                        }
+                    },
+                    "400": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/pharmacist_error"
+                        }
+                    }
+                }
+            }
+        },
+        "/register/laboratory": {
+            "post": {
+                "description": "Crea un laboratorio con su respectivo usuario",
+                "operationId": "addLaboratory",
+                "parameters": [
+                    {
+                        "name": "form",
+                        "in": "body",
+                        "description": "formulario de laboratorio",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity_form"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Laboratorio y usuario",
+                        "schema": {
+                            "$ref": "#/definitions/user_and_laboratory"
+                        }
+                    },
+                    "400": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/laboratory_error"
+                        }
+                    }
+                }
+            }
+        },
+        "/register/drugstore": {
+            "post": {
+                "description": "Crea una drogueria con su respectivo usuario",
+                "operationId": "addDrugstore",
+                "parameters": [
+                    {
+                        "name": "form",
+                        "in": "body",
+                        "description": "formulario de drogueria",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity_form"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Drogueria y usuario",
+                        "schema": {
+                            "$ref": "#/definitions/user_and_drugstore"
+                        }
+                    },
+                    "400": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/drugstore_error"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "profile": {
+            "type": "object",
+            "required": [
+                "first_name",
+                "last_name"
+            ],
+            "properties": {
+                "first_name": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                }
+            }
+        },
+        "address": {
+            "type": "object",
+            "properties": {
+                "street": {
+                    "type": "string"
+                },
+                "number": {
+                    "type": "number"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "province": {
+                    "type": "string"
+                }
+            }
+        },
+        "entity": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "__v": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "unique": {
+                    "type": "boolean"
+                },
+                "isParent": {
+                    "type": "boolean"
+                },
+                "scope": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phantasy_name": {
+                    "type": "string"
+                },
+                "cuit": {
+                    "type": "string"
+                },
+                "address": {
+                    "$ref": "#/definitions/address"
+                }
+            }
+        },
+        "user": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "__v": {
+                    "type": "number"
+                },
+                "state": {
+                    "type": "string"
+                },
+                "profile": {
+                    "$ref": "#/definitions/profile"
+                },
+                "entity": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "entity_form": {
+            "type": "object",
+            "required": [
+                "name",
+                "phantasy_name",
+                "cuit",
+                "email",
+                "street",
+                "number",
+                "city",
+                "province",
+                "profile"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "phantasy_name": {
+                    "type": "string"
+                },
+                "cuit": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "street": {
+                    "type": "string"
+                },
+                "number": {
+                    "type": "number"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "province": {
+                    "type": "string"
+                },
+                "profile": {
+                    "$ref": "#/definitions/profile"
+                }
+            }
+        },
+        "user_and_pharmacy": {
+            "type": "object",
+            "properties": {
+                "pharmacy": {
+                    "$ref": "#/definitions/entity"
+                },
+                "user": {
+                    "$ref": "#/definitions/user"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "pharmacy_error": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "exist_user",
+                    "exist_pharmacy",
+                    "User is Invalid",
+                    "Pharmacy is Invalid"
+                ]
+            }
+        },
+        "pharmacist_form": {
+            "type": "object",
+            "required": [
+                "enrollment",
+                "cuit",
+                "email",
+                "profile"
+            ],
+            "properties": {
+                "enrollment": {
+                    "type": "string"
+                },
+                "cuit": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "profile": {
+                    "$ref": "#/definitions/profile"
+                }
+            }
+        },
+        "user_and_pharmacist": {
+            "type": "object",
+            "properties": {
+                "pharmacist": {
+                    "type": "object",
+                    "properties": {
+                        "_id": {
+                            "type": "string"
+                        },
+                        "__v": {
+                            "type": "integer"
+                        },
+                        "type": {
+                            "type": "string"
+                        },
+                        "unique": {
+                            "type": "boolean"
+                        },
+                        "isParent": {
+                            "type": "boolean"
+                        },
+                        "scope": {
+                            "type": "string"
+                        },
+                        "enrollment": {
+                            "type": "string"
+                        },
+                        "cuit": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "user": {
+                    "$ref": "#/definitions/user"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "pharmacist_error": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "exist_user",
+                    "exist_pharmacist",
+                    "User is Invalid",
+                    "Pharmacist is Invalid"
+                ]
+            }
+        },
+        "user_and_laboratory": {
+            "type": "object",
+            "properties": {
+                "laboratory": {
+                    "$ref": "#/definitions/entity"
+                },
+                "user": {
+                    "$ref": "#/definitions/user"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "laboratory_error": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "exist_user",
+                    "exist_laboratory",
+                    "User is Invalid",
+                    "Laborator is Invalid"
+                ]
+            }
+        },
+        "user_and_drugstore": {
+            "type": "object",
+            "properties": {
+                "drugstore": {
+                    "$ref": "#/definitions/entity"
+                },
+                "user": {
+                    "$ref": "#/definitions/user"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "drugstore_error": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "exist_user",
+                    "exist_drugstore",
+                    "User is Invalid",
+                    "Drugstore is Invalid"
+                ]
+            }
+        }
+    }
+}
