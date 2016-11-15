@@ -9,7 +9,7 @@
             "email": "pasutmarcelo@gmail.com"
         }
     },
-    "host": "staging.farmared.com.ar",
+    "host": "farmared.com.ar",
     "basePath": "/api/accounts",
     "schemes": [
         "http"
@@ -167,9 +167,186 @@
                     }
                 }
             }
+        },
+        "/user": {
+            "get": {
+                "description": "Obtiene el usuario desde el accessToken",
+                "operationId": "getUserByAccessToken",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "accessToken",
+                        "description": "Access Token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok, Usuario",
+                        "schema": {
+                            "$ref": "#/definitions/user_min"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, el Access Token es invalido"
+                    }
+                }
+            }
+        },
+        "/user/login": {
+            "post": {
+                "description": "Login",
+                "operationId": "login",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "login_form",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/login_form"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "accessToken",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/retieve/{email}": {
+            "post": {
+                "description": "Recuperar passeord",
+                "operationId": "retrievePassword",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "email",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "El usuario no existe"
+                    }
+                }
+            }
+        },
+        "/user/internal/{id}/entity/type": {
+            "get": {
+                "description": "Obtiene el tipo de la entidad asiciada a un usuario",
+                "operationId": "entityType",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "Internal",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tipo de entidad",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Error desconocido"
+                    },
+                    "401": {
+                        "description": "unauthorized, el header Internal es invalido o no esta presente"
+                    }
+                }
+            }
+        },
+        "/user/profile/me": {
+            "get": {
+                "description": "Perfil del usuario actual",
+                "operationId": "getMyProfile",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "accessToken",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Perfil del usuario actual",
+                        "schema": {
+                            "$ref": "#/definitions/profile"
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized"
+                    }
+                }
+            },
+            "put": {
+                "description": "Cambia el perfil del usuario actual",
+                "operationId": "updateMyProfile",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "accessToken",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "profile",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/profile"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Nuevo perfil del usuario actual",
+                        "schema": {
+                            "$ref": "#/definitions/profile"
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized"
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "login_form": {
+            "type": "object",
+            "required": [
+                "username",
+                "password"
+            ],
+            "properties": {
+                "username": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
         "profile": {
             "type": "object",
             "required": [
@@ -184,7 +361,45 @@
                     "type": "string"
                 },
                 "email": {
+                    "type": "string",
+                    "format": "email"
+                },
+                "gender": {
                     "type": "string"
+                },
+                "picture": {
+                    "type": "string"
+                },
+                "summary": {
+                    "type": "string"
+                },
+                "birthdate": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "martial_status": {
+                    "type": "string"
+                },
+                "twitter": {
+                    "type": "string"
+                },
+                "skype": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "phrase": {
+                    "type": "string"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "address": {
+                    "$ref": "#/definitions/address"
                 }
             }
         },
@@ -265,6 +480,35 @@
                     "type": "string"
                 },
                 "email": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "user_min": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "__v": {
+                    "type": "number"
+                },
+                "state": {
+                    "type": "string"
+                },
+                "profile": {
+                    "$ref": "#/definitions/profile"
+                },
+                "entity": {
+                    "type": "string"
+                },
+                "type": {
                     "type": "string"
                 },
                 "role": {
