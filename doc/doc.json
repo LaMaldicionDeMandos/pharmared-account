@@ -9,7 +9,7 @@
             "email": "pasutmarcelo@gmail.com"
         }
     },
-    "host": "farmared.com.ar",
+    "host": "staging.farmared.com.ar",
     "basePath": "/api/accounts",
     "schemes": [
         "http"
@@ -141,6 +141,29 @@
                         "schema": {
                             "$ref": "#/definitions/drugstore_error"
                         }
+                    }
+                }
+            }
+        },
+        "/confirm/{id}": {
+            "get": {
+                "description": "LLamada para confirmar el email",
+                "operationId": "confirm",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "ID del usuario, esta en la url del email",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "Confirmacion ok, redireccionando a la app"
+                    },
+                    "401": {
+                        "description": "unauthorized, el id de usuario no es valido"
                     }
                 }
             }
