@@ -4,19 +4,25 @@
 var randtoken = require('rand-token');
 var q = require('q');
 function AccessTokenService() {
-    var generateAccessToken = function() {
-        return randtoken.generate(16);
+    var generateAccessToken = function(userId) {
+        var newAccessToken = userId + ':' + randtoken.generate(16);
+        console.log('accessToken generated: ' + newAccessToken);
+        return newAccessToken;
     };
 
     this.saveAccessToken = function(userId) {
-        var token = generateAccessToken();
+        var token = generateAccessToken(userId);
         var def = q.defer();
-        redisClient.multi()
-            .set(token, userId)
-            .expire(token, config.token_expiration)
-            .exec(function(){
-                def.resolve(token);
-            });
+        redisClient.keys(userId + ':*', (err, keys) => {
+            console.log('found old accessTokens: ' + keys);
+            redisClient.del(keys, cant => console.log('deleted ' + cant + 'keys'));
+            redisClient.multi()
+                .set(token, userId)
+                .expire(token, config.token_expiration)
+                .exec(function(){
+                    def.resolve(token);
+                });
+        });
         return def.promise;
     };
 
