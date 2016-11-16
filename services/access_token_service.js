@@ -40,7 +40,12 @@ function AccessTokenService() {
             }
         });
         return def.promise;
-    }
+    };
+
+    this.revokeAccessToken = function(accessToken) {
+        console.log('Revoke access Token: ' + accessToken);
+        redisClient.del(accessToken, console.log);
+    };
 }
 
 module.exports = AccessTokenService;

@@ -85,11 +85,18 @@ var updateProfile = function(req, res) {
     }).catch(error => res.sendStatus(401));
 };
 
+var revokeAccessToken = function(req, res) {
+    var accessToken = req.params.accessToken;
+    accessTokenService.revokeAccessToken(accessToken);
+    res.send();
+}
+
 router.get('/', getByAccessToken);
 router.post('/login', login);
 router.post('/retrieve/:email', retrievePassword);
 router.get('/internal/:id/entity/type', verifyInternals, getEntityType);
 router.get('/profile/me', getMyProfile);
 router.put('/profile/me', updateProfile);
+router.delete('/accessToken/:accessToken', revokeAccessToken);
 
 module.exports = router;
