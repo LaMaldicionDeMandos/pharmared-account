@@ -329,9 +329,76 @@
                     }
                 }
             }
+        },
+        "/user/accessToken/{accessToken}": {
+            "delete": {
+                "description": "Revoca el accessToken",
+                "operationId": "revokeAccessToken",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "accessToken",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok, accessToken invalidado"
+                    }
+                }
+            }
+        },
+        "/user/password": {
+            "post": {
+                "description": "Cambio de password",
+                "operationId": "changePassword",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "accessToken",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "form",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/change_password_form"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Cambio ok"
+                    },
+                    "400": {
+                        "description": "algun error de validacion",
+                        "schema": {
+                            "$ref": "#/definitions/change_password_error"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "change_password_form": {
+            "type": "object",
+            "required": [
+                "old",
+                "new"
+            ],
+            "properties": {
+                "old": {
+                    "type": "string"
+                },
+                "new": {
+                    "type": "string"
+                }
+            }
+        },
         "login_form": {
             "type": "object",
             "required": [
@@ -712,6 +779,16 @@
                     "exist_drugstore",
                     "User is Invalid",
                     "Drugstore is Invalid"
+                ]
+            }
+        },
+        "change_password_error": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "invalid_old",
+                    "invalid_new"
                 ]
             }
         }
