@@ -381,6 +381,65 @@
                     }
                 }
             }
+        },
+        "/entity/me": {
+            "get": {
+                "description": "Entidad relacionada con el usuario actual",
+                "operationId": "getMyEntity",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "accessToken",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Entidad relacionada al usuario actual",
+                        "schema": {
+                            "$ref": "#/definitions/entity"
+                        }
+                    },
+                    "401": {
+                        "description": "Access token invalido"
+                    }
+                }
+            },
+            "put": {
+                "description": "Cambia la entidad relacionada con el usuario actual",
+                "operationId": "updateMyEntity",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "accessToken",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "entity",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna la entidad modificada",
+                        "schema": {
+                            "$ref": "#/definitions/entity"
+                        }
+                    },
+                    "400": {
+                        "description": "Error desconocido al intentar modificar la entidad"
+                    },
+                    "401": {
+                        "description": "Error de autorizacion"
+                    }
+                }
+            }
         }
     },
     "definitions": {
