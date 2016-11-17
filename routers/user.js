@@ -96,7 +96,7 @@ var changePassword = function(req, res) {
 
     service.getUserNameByAccessToken(accessToken)
         .then(username => service.changePassword(username, req.body.old, req.body.new))
-        .then(result => res.status(200).send())
+        .then(result => res.status(201).send())
         .catch(error => res.status(400).send(error));
 }
 
@@ -107,6 +107,6 @@ router.get('/internal/:id/entity/type', verifyInternals, getEntityType);
 router.get('/profile/me', getMyProfile);
 router.put('/profile/me', updateProfile);
 router.delete('/accessToken/:accessToken', revokeAccessToken);
-router.put('/password', changePassword);
+router.post('/password', changePassword);
 
 module.exports = router;
