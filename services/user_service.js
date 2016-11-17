@@ -75,7 +75,7 @@ function UserService(db) {
                         def.reject('invalid_old');
                     } else {
                         user.password = sha(password);
-                        user.state = User.State.ACTIVE;
+                        user.state = db.User.State.ACTIVE;
                         user.update(user, function(err, result) {
                             console.log(err + ' - ' + result);
                             if (!err) {
