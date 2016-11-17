@@ -5,6 +5,7 @@ var q = require('q');
 var sha = require('sha256');
 var passwordGenerator = require('generate-password');
 var AccessTokenService = require('./access_token_service');
+var validator = require('../model/model_validations');
 function UserService(db) {
     var accessTokenService = new AccessTokenService();
     this.getUserById = function(userId) {
@@ -41,6 +42,11 @@ function UserService(db) {
         });
         return def.promise;
     };
+    this.getUserNameByAccessToken = function(accessToken) {
+        return accessTokenService.getUserIdByToken(accessToken)
+            .then(this.getUserById)
+            .then(user => user.email);
+    };
     this.getUserByAccessToken = function(accessToken) {
         return accessTokenService.getUserIdByToken(accessToken)
             .then(this.getUserById)
@@ -58,6 +64,31 @@ function UserService(db) {
                 return {user:user, password: password};
             }
         );
+    };
+    this.changePassword = function(username, oldPassword, password) {
+        var def = q.defer();
+        if (!validator.validatePassword(password)) {
+            def.reject('invalid_new');
+        } else {
+            this.getUserByEmail(username).then(user => {
+                    if (!validator.validatePasswordToEncripted(oldPassword, user.password)) {
+                        def.reject('invalid_old');
+                    } else {
+                        user.password = sha(password);
+                        user.update(user, function(err, result) {
+                            console.log(err + ' - ' + result);
+                            if (!err) {
+                                def.resolve({user:user, password: password});
+                            } else {
+                                def.reject(err);
+                            }
+                        });
+                    }
+                },
+                error => def.reject(error)
+            );
+        }
+        return def.promise;
     };
     this.getEntityByUsername = function(username) {
         return this.getUserByEmail(username).then(user => {
