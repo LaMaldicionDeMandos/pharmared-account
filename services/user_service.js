@@ -6,6 +6,7 @@ var sha = require('sha256');
 var passwordGenerator = require('generate-password');
 var AccessTokenService = require('./access_token_service');
 var validator = require('../model/model_validations');
+var User = require('../model/user');
 function UserService(db) {
     var accessTokenService = new AccessTokenService();
     this.getUserById = function(userId) {
@@ -75,7 +76,7 @@ function UserService(db) {
                         def.reject('invalid_old');
                     } else {
                         user.password = sha(password);
-                        user.state = db.User.State.ACTIVE;
+                        user.state = User.State.ACTIVE;
                         user.update(user, function(err, result) {
                             console.log(err + ' - ' + result);
                             if (!err) {
