@@ -59,10 +59,18 @@ function UserService(db) {
     this.retrievePassword = function(username) {
         return this.getUserByEmail(username).then(
             function(user) {
+                var def = q.defer();
                 var password = passwordGenerator.generate({length: 8});
                 user.password = sha(password);
-                user.update(user);
-                return {user:user, password: password};
+                user.update(user, err => {
+                    if (err) {
+                        console.log(err);
+                        def.reject(err);
+                    } else {
+                        def.resolve({user:user, password: password});
+                    }
+                });
+                return def.promise;
             }
         );
     };
