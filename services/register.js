@@ -63,7 +63,7 @@ function registerEntity(dto, closureObject, mailService) {
     var user = new User(dto);
     user.state = User.State.WAITING;
     user.profile.email = user.email;
-    var password = passwordGenerator.generate({length: 8});
+    var password = passwordGenerator.generate({length: 8, numbers: true});
     user.password = sha(password);
     if (!entity.validate()) {
         defer.reject(new Error(closureObject.entityIsInvalid));
