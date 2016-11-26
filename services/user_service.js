@@ -117,28 +117,6 @@ function UserService(db) {
             return def.promise;
         });
     };
-    this.getProfileByAccessToken = function(accessToken) {
-        return this.getUserByAccessToken(accessToken).then(user => {
-            user.profile.roles = user.role;
-            return user.profile;
-        });
-    };
-    this.updateProfile = function(accessToken, profile) {
-        var def = q.defer();
-        this.getUserByAccessToken(accessToken).then(user => {
-            delete profile.roles;
-            user.profile = profile;
-            user.update(user, err => {
-                if (err) {
-                    def.reject(err);
-                } else {
-                    user.profile.roles = user.role;
-                    def.resolve(user.profile);
-                }
-            });
-        });
-        return def.promise;
-    };
 };
 
 module.exports = UserService;

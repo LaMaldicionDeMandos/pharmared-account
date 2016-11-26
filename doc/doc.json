@@ -274,62 +274,6 @@
                 }
             }
         },
-        "/user/profile/me": {
-            "get": {
-                "description": "Perfil del usuario actual",
-                "operationId": "getMyProfile",
-                "parameters": [
-                    {
-                        "in": "query",
-                        "name": "accessToken",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Perfil del usuario actual",
-                        "schema": {
-                            "$ref": "#/definitions/profile"
-                        }
-                    },
-                    "401": {
-                        "description": "unauthorized"
-                    }
-                }
-            },
-            "put": {
-                "description": "Cambia el perfil del usuario actual",
-                "operationId": "updateMyProfile",
-                "parameters": [
-                    {
-                        "in": "query",
-                        "name": "accessToken",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "in": "body",
-                        "name": "profile",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/profile"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Nuevo perfil del usuario actual",
-                        "schema": {
-                            "$ref": "#/definitions/profile"
-                        }
-                    },
-                    "401": {
-                        "description": "unauthorized"
-                    }
-                }
-            }
-        },
         "/user/accessToken/{accessToken}": {
             "delete": {
                 "description": "Revoca el accessToken",
@@ -378,65 +322,6 @@
                         "schema": {
                             "$ref": "#/definitions/change_password_error"
                         }
-                    }
-                }
-            }
-        },
-        "/entity/me": {
-            "get": {
-                "description": "Entidad relacionada con el usuario actual",
-                "operationId": "getMyEntity",
-                "parameters": [
-                    {
-                        "in": "query",
-                        "name": "accessToken",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Entidad relacionada al usuario actual",
-                        "schema": {
-                            "$ref": "#/definitions/entity"
-                        }
-                    },
-                    "401": {
-                        "description": "Access token invalido"
-                    }
-                }
-            },
-            "put": {
-                "description": "Cambia la entidad relacionada con el usuario actual",
-                "operationId": "updateMyEntity",
-                "parameters": [
-                    {
-                        "in": "query",
-                        "name": "accessToken",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "in": "body",
-                        "name": "entity",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Retorna la entidad modificada",
-                        "schema": {
-                            "$ref": "#/definitions/entity"
-                        }
-                    },
-                    "400": {
-                        "description": "Error desconocido al intentar modificar la entidad"
-                    },
-                    "401": {
-                        "description": "Error de autorizacion"
                     }
                 }
             }
