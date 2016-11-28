@@ -10,7 +10,6 @@ redisClient = redis.createClient(config.redis_port, config.redis_host);
 var register = require('./routers/register');
 var confirm = require('./routers/confirm');
 var user = require('./routers/user');
-var entity = require('./routers/entity');
 
 var bodyParser = require('body-parser');
 var express = require('express');
@@ -24,7 +23,6 @@ app.set('port', (process.env.PORT || 5000));
 app.use('/register', register);
 app.use('/confirm', confirm);
 app.use('/user', user);
-app.use('/entity', entity);
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
