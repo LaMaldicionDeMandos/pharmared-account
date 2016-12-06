@@ -3,7 +3,7 @@
  */
 var q = require('q');
 var sha = require('sha256');
-var passwordGenerator = require('generate-password');
+var passwordGeneration = require('./password_service');
 var Address = require('../model/address');
 var Pharmacy = require('../model/pharmacy_entity');
 var Pharmacist = require('../model/pharmacist_entity');
@@ -63,7 +63,7 @@ function registerEntity(dto, closureObject, mailService) {
     var user = new User(dto);
     user.state = User.State.WAITING;
     user.profile.email = user.email;
-    var password = passwordGenerator.generate({length: 8, numbers: true});
+    var password = passwordGeneration();
     user.password = sha(password);
     if (!entity.validate()) {
         defer.reject(new Error(closureObject.entityIsInvalid));

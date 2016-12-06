@@ -3,7 +3,7 @@
  */
 var q = require('q');
 var sha = require('sha256');
-var passwordGenerator = require('generate-password');
+var passwordGeneration = require('./password_service');
 var AccessTokenService = require('./access_token_service');
 var validator = require('../model/model_validations');
 var User = require('../model/user');
@@ -60,7 +60,7 @@ function UserService(db) {
         return this.getUserByEmail(username).then(
             function(user) {
                 var def = q.defer();
-                var password = passwordGenerator.generate({length: 8, numbers: true});
+                var password = passwordGeneration();
                 user.password = sha(password);
                 user.update(user, err => {
                     if (err) {
